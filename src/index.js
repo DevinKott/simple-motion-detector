@@ -64,7 +64,7 @@ const init = async () => {
         return;
     }
 
-    if (!valid(chatId)) {
+    if (!valid(CHAT_ID)) {
         console.error(`Chat ID for telegram is not valid or defined.`);
         return;
     }
