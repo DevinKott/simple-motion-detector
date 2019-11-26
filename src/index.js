@@ -45,8 +45,6 @@ const setupMotion = () => {
 const init = async () => {
     console.debug(`Hello! Starting init function.`);
 
-    console.debug(`Token: ${process.env.TOKEN}`);
-
     try {
         motion = new Gpio(21, `in`, `rising`);
     } catch (error) {
