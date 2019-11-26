@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/DevinKott/simple-motion-detector#readme",
   "dependencies": {
-    "onoff": "^5.0.0"
+    "dotenv": "^8.2.0",
+    "onoff": "^5.0.0",
+    "telebot": "^1.2.6"
   }
 }
