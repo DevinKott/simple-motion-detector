@@ -15,6 +15,7 @@ const setupMotion = () => {
         return;
     }
 
+    console.debug(`Motion watch is being called. Motion can now be detected.`);
     motion.watch(
         (err, value) => {
             if (err) {
