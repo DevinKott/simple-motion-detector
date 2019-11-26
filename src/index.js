@@ -9,7 +9,6 @@ let bot = null;
 let chatId = null;
 
 
-
 const setupMotion = () => {
     if (!valid(motion)) {
         console.error(`Motion detector not set up correctly.`);
@@ -28,6 +27,7 @@ const setupMotion = () => {
                 const date = new Date();
 
                 try {
+                    console.debug(`Chat ID: ${chatId}`);
                     bot.sendMessage(chatId, `Motion detected at ${date.toDateString()}`).catch(
                         () => {
                             console.error(`Error sending text message through telegram.`);
@@ -59,7 +59,7 @@ const init = async () => {
 
     console.debug(`Setting up telebot.`);
     const token = process.env.TOKEN;
-    const chatId = process.env.CHATID;
+    const CHAT_ID = process.env.CHATID;
     if (!valid(token)) {
         console.error(`Token for telegram is not valid or defined.`);
         return;
@@ -73,6 +73,7 @@ const init = async () => {
     try {
         bot = new telebot(token);
         bot.start();
+        chatId = CHAT_ID;
     } catch (error) {
         console.error(`Error occurred setting up telebot -- ${error}`);
         return;
