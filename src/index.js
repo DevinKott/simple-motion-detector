@@ -6,6 +6,7 @@ dotenv.config();
 
 let motion = null;
 let bot = null;
+let chatId = null;
 
 
 
@@ -22,7 +23,21 @@ const setupMotion = () => {
                 return;
             }
 
-            console.debug(`Motion has been detected.`)
+            console.debug(`Motion has been detected.`);
+            if (valid(bot)) {
+                const date = new Date();
+
+                try {
+                    bot.sendMessage(chatId, `Motion detected at ${date.toDateString()}`).catch(
+                        () => {
+                            console.error(`Error sending text message through telegram.`);
+                        }
+                    );
+                } catch (error) {
+                    console.error(`Error sending text message through telegram (try/catch).`);
+                }
+                
+            }
         }
     );
 }
@@ -46,18 +61,24 @@ const init = async () => {
 
     console.debug(`Setting up telebot.`);
     const token = process.env.TOKEN;
+    const chatId = process.env.CHATID;
     if (!valid(token)) {
         console.error(`Token for telegram is not valid or defined.`);
         return;
     }
 
-    bot = new telebot(token);
+    if (!valid(chatId)) {
+        console.error(`Chat ID for telegram is not valid or defined.`);
+        return;
+    }
 
-    bot.on(`/hello`, (msg) => {
-        console.dir(msg);
-    });
-    
-    bot.start();
+    try {
+        bot = new telebot(token);
+        bot.start();
+    } catch (error) {
+        console.error(`Error occurred setting up telebot -- ${error}`);
+        return;
+    }
 
     console.debug(`Sleeping for 30 seconds to let the detector warm up.`);
     await sleep(30000);
