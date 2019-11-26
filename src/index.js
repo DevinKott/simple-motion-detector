@@ -27,7 +27,6 @@ const setupMotion = () => {
                 const date = new Date();
 
                 try {
-                    console.debug(`Chat ID: ${chatId}`);
                     bot.sendMessage(chatId, `Motion detected at ${date.toDateString()}`).catch(
                         () => {
                             console.error(`Error sending text message through telegram.`);
