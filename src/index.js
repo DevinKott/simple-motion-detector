@@ -1,6 +1,13 @@
 const Gpio = require('onoff').Gpio;
+const telebot = require('telebot');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 let motion = null;
+let bot = null;
+
+
 
 const setupMotion = () => {
     if (!valid(motion)) {
@@ -23,6 +30,8 @@ const setupMotion = () => {
 const init = async () => {
     console.debug(`Hello! Starting init function.`);
 
+    console.debug(`Token: ${process.env.TOKEN}`);
+
     try {
         motion = new Gpio(21, `in`, `rising`);
     } catch (error) {
@@ -34,7 +43,22 @@ const init = async () => {
         console.error(`Error occurred setting motion detector.`);
         return;
     }
+
+    console.debug(`Setting up telebot.`);
+    const token = process.env.TOKEN;
+    if (!valid(token)) {
+        console.error(`Token for telegram is not valid or defined.`);
+        return;
+    }
+
+    bot = new telebot(token);
+
+    bot.on(`/hello`, (msg) => {
+        console.dir(msg);
+    });
     
+    bot.start();
+
     console.debug(`Sleeping for 30 seconds to let the detector warm up.`);
     await sleep(30000);
 
