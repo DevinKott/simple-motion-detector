@@ -22,12 +22,12 @@ const setupMotion = () => {
                 return;
             }
 
-            console.debug(`Motion has been detected.`);
-            if (valid(bot)) {
-                const date = new Date();
+            const date = new Date();
+            console.debug(`Motion has been detected at ${date.toString()}`);
 
+            if (valid(bot)) {
                 try {
-                    bot.sendMessage(chatId, `Motion detected at ${date.toDateString()}`).catch(
+                    bot.sendMessage(chatId, `Motion detected at ${date.toString()}`).catch(
                         () => {
                             console.error(`Error sending text message through telegram.`);
                         }
