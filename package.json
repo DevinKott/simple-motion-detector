@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/DevinKott/simple-motion-detector/issues"
   },
-  "homepage": "https://github.com/DevinKott/simple-motion-detector#readme"
+  "homepage": "https://github.com/DevinKott/simple-motion-detector#readme",
+  "dependencies": {
+    "onoff": "^5.0.0"
+  }
 }
