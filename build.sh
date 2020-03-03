@@ -1,0 +1,1 @@
+sudo docker build -t devinkott/mqtt-motion-detector --no-cache .
