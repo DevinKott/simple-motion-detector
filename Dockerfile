@@ -1,4 +1,4 @@
-FROM node:13.8.0-buster-slim
+FROM node:13.8.0-buster
 
 # Update packages
 RUN     apt update
@@ -6,7 +6,7 @@ RUN     apt update
 # Install packages
 RUN     apt install python3.7 -y
 
-RUN     whereis python3.7
+RUN     whereis python3
 
 # Create the application directory
 WORKDIR /mqtt-motion
