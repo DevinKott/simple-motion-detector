@@ -1,4 +1,4 @@
-FROM node:13.8.0-buster
+FROM node:14.2.0-buster
 
 # Update packages
 RUN     apt update
