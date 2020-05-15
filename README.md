@@ -12,4 +12,4 @@
 ### To Run
 
 1. Create `.env` file to hold environment variables in `VAR=VAR` format
-2. Run `docker run --env-file .env --privileged -d -name motion devinkott/security:latest`
+2. Run `docker run --env-file .env --privileged -d --name motion devinkott/security:latest`
