@@ -7,7 +7,11 @@ cat ./docker_password.txt | docker login --username devinkott --password-stdin
 echo "===== Pushing container"
 docker push devinkott/security:latest
 
-echo "===== Copying service file"
+echo "===== Removing old service file"
+sudo systemctl disable motion.service
+sudo rm -rf /etc/systemd/system/motion.service
+
+echo "===== Copying new service file"
 sudo cp motion.service /etc/systemd/system/
 
 echo "===== Reloading daemons"
