@@ -1,4 +1,4 @@
-FROM node:13.8.0-buster
+FROM hypriot/rpi-node:latest
 
 # Update packages
 RUN     apt update && apt upgrade -y
