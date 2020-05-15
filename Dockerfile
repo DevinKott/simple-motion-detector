@@ -1,7 +1,7 @@
-FROM node:14.2.0-alpine3.10
+FROM node:13.8.0-buster
 
 # Update packages
-# RUN     apt update
+RUN     apt update
 
 # Create the application directory
 WORKDIR /mqtt-motion
@@ -9,8 +9,8 @@ WORKDIR /mqtt-motion
 # Copy in package.json
 COPY    package.json .
 
-# Run NPM
-RUN     npm i
+# Run Yarn
+RUN     yarn
 
 # Copy in source files
 COPY    .   .
