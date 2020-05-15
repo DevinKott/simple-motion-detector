@@ -1,7 +1,7 @@
 FROM node:13.8.0-buster
 
 # Update packages
-RUN     apt update
+RUN     apt update && apt upgrade -y
 
 # Create the application directory
 WORKDIR /mqtt-motion
