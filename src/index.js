@@ -25,7 +25,7 @@ const setupMotion = () => {
             }
 
             const date = new Date();
-            console.debug(`Motion has been detected at ${date.toString()}`);
+            console.log(`Motion has been detected at ${date.toString()}`);
             publish();
         }
     );
@@ -41,10 +41,11 @@ const publish = () => {
         process.env.TOPIC,
         `motion_detected`
     );
-    console.debug(`Published MQTT message to HomeAssistant`);
+    console.log(`Published MQTT message to HomeAssistant`);
 }
 
 const init = async () => {
+    console.log(`Starting init method.`);
     const PIN_NUMBER = process.env.PIN_NUMBER;
     const TOPIC = process.env.TOPIC;
     const HOST = process.env.HOST;
@@ -57,6 +58,8 @@ const init = async () => {
         console.error(`error in .env file.`);
         process.exit();
     }
+
+    console.log(`Starting MQTT.`);
 
     // Set up MQTT
     try {
@@ -74,6 +77,8 @@ const init = async () => {
         process.exit();
     }
 
+    console.log(`Starting motion stuff.`);
+
 
     // Set up the motion detector. Sleeps for 30 seconds
     try {
@@ -84,10 +89,10 @@ const init = async () => {
             process.exit();
         }
 
-        console.debug(`Sleeping for 30 seconds to let the detector warm up.`);
+        console.log(`Sleeping for 30 seconds to let the detector warm up.`);
         await sleep(30000);
 
-        console.debug(`Calling setupMotion`);
+        console.log(`Calling setupMotion`);
         setupMotion();
     } catch (error) {
         console.error(`Error occurred setting motion detector -- ${error}`);
