@@ -4,9 +4,12 @@ Requires=docker.service
 After=docker.service
 
 [Service]
+TimeoutStartSec=0
 Restart=always
-ExecStart=/usr/bin/docker start -a motion
+ExecStartPre=-/usr/bin/docker stop motion
+ExecStartPre=-/usr/bin/docker rm motion
+ExecStart=/usr/bin/docker run --rm --env-file .env --privileged -d --name motion --net=host devinkott/security:latest
 ExecStop=/usr/bin/docker stop -t 2 motion
 
 [Install]
-WantedBy=local.target
+WantedBy=multi-user.target
