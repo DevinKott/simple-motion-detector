@@ -93,6 +93,7 @@ const init = async () => {
         await sleep(30000);
 
         console.log(`Calling setupMotion`);
+        console.log(motion);
         setupMotion();
     } catch (error) {
         console.error(`Error occurred setting motion detector -- ${error}`);
