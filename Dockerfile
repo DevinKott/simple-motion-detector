@@ -1,4 +1,4 @@
-FROM node:14.2.0-buster
+FROM node:14.2.0-alpine3.10
 
 # Update packages
 RUN     apt update
