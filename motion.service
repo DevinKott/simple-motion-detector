@@ -9,7 +9,6 @@ Restart=always
 ExecStartPre=-/usr/bin/docker kill motion
 ExecStartPre=-/usr/bin/docker rm motion -f
 ExecStart=/usr/bin/docker run --env-file /home/pi/projects/simple-motion-detector/.env --privileged -d --name motion --net=host devinkott/security:latest
-ExecStop=/usr/bin/docker stop -t 2 motion
 
 [Install]
 WantedBy=multi-user.target
