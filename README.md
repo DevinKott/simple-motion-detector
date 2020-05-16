@@ -6,7 +6,7 @@
 
 1. Install Docker (using [this](https://phoenixnap.com/kb/docker-on-raspberry-pi))
 2. Pull this repository **onto a raspberry pi**.
-3. `chmod +x ./build.sh
+3. `chmod +x ./build.sh`
 4. `./build.sh`
 
 ### To Run
