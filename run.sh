@@ -1,4 +1,5 @@
 echo "===== Removing old service file"
+sudo systemctl stop motion.service
 sudo systemctl disable motion.service
 sudo rm -rf /etc/systemd/system/motion.service
 
