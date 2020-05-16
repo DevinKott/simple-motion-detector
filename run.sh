@@ -10,5 +10,6 @@ echo "===== Reloading daemons"
 sudo systemctl daemon-reload
 
 echo "===== Starting service"
-sudo systemctl start motion.service
 sudo systemctl enable motion.service
+sudo systemctl start motion.service
+
