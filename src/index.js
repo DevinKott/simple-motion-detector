@@ -49,6 +49,38 @@ const publish = () => {
     }
 }
 
+const connectToMQTT = () => {
+    return new Promise(
+        (resolve) => {
+            // These environmental variables should already be checked at this point in the program.
+            // However, we shall check again
+            const USERNAME = process.env.USERNAME;
+            const PASSWORD = process.env.PASSWORD;
+            const HOST = process.env.HOST;
+            const PORT = process.env.PORT;
+
+            if (!valid(USERNAME) || !valid(PASSWORD) || !valid(HOST) || !valid(PORT)) {
+                return resolve({success: false, message: `The USERNAME, PASSWORD, HOST, or PORT environment variable is unset.`});
+            }
+
+            const options = {
+                host: `${HOST}`,
+                port: parseInt(PORT),
+                username: `${USERNAME}`,
+                password: `${PASSWORD}`
+            };
+
+            try {
+                mqtt_client = mqtt.connect(options);
+                return resolve({success: true, message: `MQTT instance connected successfully.`});
+            } catch (error) {
+                console.error(``);
+                return resolve({success: false, message: `Error connecting to mqtt service on ${HOST}:${PORT}. Exiting...`});
+            }
+        }
+    );
+}
+
 const init = async () => {
     console.debug(`Starting...`);
     const PIN_NUMBER = process.env.PIN_NUMBER;
@@ -64,21 +96,14 @@ const init = async () => {
         process.exit();
     }
 
+    // Start up MQTT
     console.debug(`Starting MQTT instance.`);
-
-    // Set up MQTT
-    try {
-        const options = {
-            host: `${HOST}`,
-            port: parseInt(PORT),
-            username: `${USERNAME}`,
-            password: `${PASSWORD}`
-        };
-
-        mqtt_client = mqtt.connect(options);
-        console.debug(`MQTT instance connected successfully.`);
-    } catch (error) {
-        console.error(`Error connecting to mqtt service on ${HOST}:${PORT}. Exiting...`);
+    const result = await connectToMQTT();
+    const message = result[`message`];
+    if (result['success'] === true) {
+        console.debug(`${message}`);
+    } else {
+        console.error(`${message}`);
         process.exit();
     }
 
