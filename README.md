@@ -18,3 +18,4 @@ If there is an update to the code, run `git pull` in the directory and rerun the
 ### Todo
 
 1. If the MQTT connection fails, we should retry a couple of times before exiting the process
+2. Disconnect MQTT on shutdown?
