@@ -13,19 +13,20 @@ let mqtt_client = null;
  */
 const setupMotion = () => {
     if (!valid(motion)) {
-        console.error(`Motion detector not set up correctly.`);
-        return;
+        console.error(`Motion detector not set up correctly. Cannot continue.`);
+        process.exit();
     }
 
+    console.debug(`Calling motion.watch().`);
     motion.watch(
         (err, value) => {
             if (err) {
-                console.error(`Error occurred in motion watch -- ${err}`);
+                console.error(`Error occurred in motion watch -- ${err}.`);
                 return;
             }
 
             const date = new Date();
-            console.log(`Motion has been detected at ${date.toString()}`);
+            console.debug(`Motion has been detected at time ${date.toString()}.`);
             publish();
         }
     );
@@ -33,19 +34,23 @@ const setupMotion = () => {
 
 const publish = () => {
     if (!valid(mqtt_client)) {
-        console.error(`MQTT Client not set up.`);
-        return;
+        console.error(`MQTT connection is not set up - cannot publish motion notification. Exiting...`);
+        process.exit();
     }
 
-    mqtt_client.publish(
-        process.env.TOPIC,
-        `motion_detected`
-    );
-    console.log(`Published MQTT message to HomeAssistant`);
+    try {
+        mqtt_client.publish(
+            process.env.TOPIC,
+            `motion_detected`
+        );
+        console.debug(`MQTT motion notification on topic '${process.env.TOPIC}' has been published.`);
+    } catch (error) {
+        console.error(`MQTT motion notification on topic '${process.env.TOPIC}' errored out.`);
+    }
 }
 
 const init = async () => {
-    console.log(`Starting init method.`);
+    console.debug(`Starting...`);
     const PIN_NUMBER = process.env.PIN_NUMBER;
     const TOPIC = process.env.TOPIC;
     const HOST = process.env.HOST;
@@ -55,11 +60,11 @@ const init = async () => {
 
     if (!valid(TOPIC) || !valid(PIN_NUMBER) || !valid(HOST) || !valid(PORT)
         || !valid(USERNAME) || !valid(PASSWORD)) {
-        console.error(`error in .env file.`);
+        console.error(`Error in .env file - must supply environmental variables for PIN_NUMBER, TOPIC, HOST, PORT, USERNAME, and PASSWORD. Exiting...`);
         process.exit();
     }
 
-    console.log(`Starting MQTT.`);
+    console.debug(`Starting MQTT instance.`);
 
     // Set up MQTT
     try {
@@ -71,13 +76,11 @@ const init = async () => {
         };
 
         mqtt_client = mqtt.connect(options);
+        console.debug(`MQTT instance connected successfully.`);
     } catch (error) {
-        console.error(`Error connecting to mqtt service on ${HOST}:${PORT}`);
-        mqtt_client = null;
+        console.error(`Error connecting to mqtt service on ${HOST}:${PORT}. Exiting...`);
         process.exit();
     }
-
-    console.log(`Starting motion stuff.`);
 
 
     // Set up the motion detector. Sleeps for 30 seconds
@@ -85,18 +88,16 @@ const init = async () => {
         motion = new Gpio(parseInt(PIN_NUMBER), `in`, `rising`);
 
         if (!valid(motion)) {
-            console.error(`Error occurred setting motion detector.`);
+            console.error(`Error thrown while setting up motion detector -- Gpio instance from pin ${PIN_NUMBER} ('in' and 'rising') is null.`);
             process.exit();
         }
 
-        console.log(`Sleeping for 30 seconds to let the detector warm up.`);
+        console.debug(`Sleeping for 30 seconds to let the detector warm up.`);
         await sleep(30000);
-
-        console.log(`Calling setupMotion`);
-        console.log(motion);
+        console.debug(`30 seconds has passed. Continuing setup.`);
         setupMotion();
     } catch (error) {
-        console.error(`Error occurred setting motion detector -- ${error}`);
+        console.error(`Error thrown while setting up motion detector -- ${error}`);
         process.exit();
     }
 }
