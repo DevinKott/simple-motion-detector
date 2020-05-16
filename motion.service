@@ -6,6 +6,8 @@ After=docker.service
 [Service]
 TimeoutStartSec=0
 Restart=always
+ExecStartPre=-/usr/bin/docker stop motion
+ExecStartPre=-/usr/bin/docker rm motion
 ExecStart=/usr/bin/docker run --rm --env-file /home/pi/projects/simple-motion-detector/.env --privileged --name motion --net=host devinkott/security:latest
 ExecStop=/usr/bin/docker stop -t 2 motion
 
