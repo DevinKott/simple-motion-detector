@@ -13,3 +13,8 @@
 
 The build script will install a service file via `systemd` that starts the motion container after installation **and** on every boot.
 If there is an update to the code, run `git pull` in the directory and rerun the build script.
+
+
+### Todo
+
+1. If the MQTT connection fails, we should retry a couple of times before exiting the process
