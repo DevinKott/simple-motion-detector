@@ -1,7 +1,7 @@
 FROM hypriot/rpi-node:latest
 
 # Update packages
-RUN     apt update && apt upgrade -y
+# RUN     apt update && apt upgrade -y
 
 # Create the application directory
 WORKDIR /mqtt-motion
