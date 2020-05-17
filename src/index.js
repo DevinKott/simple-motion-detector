@@ -17,7 +17,7 @@ const setupMotion = () => {
         process.exit();
     }
 
-    console.debug(`Calling motion.watch().`);
+    console.log(`Calling motion.watch().`);
     motion.watch(
         (err, value) => {
             if (err) {
@@ -26,7 +26,7 @@ const setupMotion = () => {
             }
 
             const date = new Date();
-            console.debug(`Motion has been detected at time ${date.toString()}.`);
+            console.log(`Motion has been detected at time ${date.toString()}.`);
             publish();
         }
     );
@@ -43,7 +43,7 @@ const publish = () => {
             process.env.TOPIC,
             `motion_detected`
         );
-        console.debug(`MQTT motion notification on topic '${process.env.TOPIC}' has been published.`);
+        console.log(`MQTT motion notification on topic '${process.env.TOPIC}' has been published.`);
     } catch (error) {
         console.error(`MQTT motion notification on topic '${process.env.TOPIC}' errored out.`);
     }
@@ -82,7 +82,7 @@ const connectToMQTT = () => {
 }
 
 const init = async () => {
-    console.debug(`Starting...`);
+    console.log(`Starting...`);
     const PIN_NUMBER = process.env.PIN_NUMBER;
     const TOPIC = process.env.TOPIC;
     const HOST = process.env.HOST;
@@ -97,11 +97,11 @@ const init = async () => {
     }
 
     // Start up MQTT
-    console.debug(`Starting MQTT instance.`);
+    console.log(`Starting MQTT instance.`);
     const result = await connectToMQTT();
     const message = result[`message`];
     if (result['success'] === true) {
-        console.debug(`${message}`);
+        console.log(`${message}`);
     } else {
         console.error(`${message}`);
         process.exit();
@@ -117,9 +117,9 @@ const init = async () => {
             process.exit();
         }
 
-        console.debug(`Sleeping for 30 seconds to let the detector warm up.`);
+        console.log(`Sleeping for 30 seconds to let the detector warm up.`);
         await sleep(30000);
-        console.debug(`30 seconds has passed. Continuing setup.`);
+        console.log(`30 seconds has passed. Continuing setup.`);
         setupMotion();
     } catch (error) {
         console.error(`Error thrown while setting up motion detector -- ${error}`);
