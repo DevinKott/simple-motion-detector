@@ -2,6 +2,15 @@
 
 **Must be built on a ARM device if running on an ARM device.**
 
+### What is this?
+
+I have several motion detectors set up in my house.
+These devices are just raspberry pi's with a hc-sr501 sensor mounted on top.
+This repository contains code for connecting to the sensors via gpio and notifying a mqtt channel when motion has been detected.
+As I said previously, I have several of these set up in my house and they have been running for a good few months now.
+A service script is installed to run the program on boot.
+It uses Docker.
+
 ### To Setup
 
 1. Install Docker (using [this](https://phoenixnap.com/kb/docker-on-raspberry-pi))
