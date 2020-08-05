@@ -11,6 +11,8 @@ As I said previously, I have several of these set up in my house and they have b
 A service script is installed to run the program on boot.
 It uses Docker.
 
+(If you're wondering, I run HomeAssistant and this was the easiest way to get notifications into it.)
+
 ### To Setup
 
 1. Install Docker (using [this](https://phoenixnap.com/kb/docker-on-raspberry-pi))
